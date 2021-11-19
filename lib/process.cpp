@@ -1,6 +1,5 @@
 #include "../include/process.h"
 #include <fstream>
-#include <format>
 Process::Process(std::string name, int arrivalTime, int processingTime, int arrivalOrder)
 {
 	this->name = name;
@@ -12,7 +11,7 @@ auto Process::remains() const -> int
 {
 	return processingTime - timeRunning;
 }
-auto Process::run(const int& currentTime) -> Process
+auto Process::run(const int &currentTime) -> Process
 {
 	turnAroundTime = currentTime - arrivalTime;
 	delay = turnAroundTime - processingTime;
@@ -31,19 +30,19 @@ auto Process::run(const int& currentTime) -> Process
 	return *this;
 };
 
-auto Process::operator==(const Process& other) const -> bool
+auto Process::operator==(const Process &other) const -> bool
 {
 	return name == other.name;
 }
- auto operator<<(std::ofstream& f, const Process& process) -> std::ofstream&
+auto operator<<(std::ofstream &f, const Process &process) -> std::ofstream &
 {
-	f << std::format("{}: (response={}, turnaround={}, delay={})\n", process.name, process.responseTime, process.turnAroundTime, process.delay);
+	f << process.name << ": (response=" << process.responseTime << ", turnaround=" << process.turnAroundTime << ", delay=" << process.delay << ")" << std::endl;
 
 	return f;
 }
- auto operator<<(std::ostream& f, const Process& process) -> std::ostream&
+auto operator<<(std::ostream &f, const Process &process) -> std::ostream &
 {
-	f << std::format("{}: (response={}, turnaround={}, delay={})\n", process.name, process.responseTime, process.turnAroundTime, process.delay);
+	f << process.name << ": (response=" << process.responseTime << ", turnaround=" << process.turnAroundTime << ", delay=" << process.delay << ")" << std::endl;
 
 	return f;
 }
