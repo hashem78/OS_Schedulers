@@ -1,18 +1,22 @@
 #include "../../include/schedulers/srt.h"
 
-auto SRTScheduler::run() -> void 
+auto SRTScheduler::run() -> void
 {
 	using namespace std;
-	auto arrivalComp = [&](const Process& a, const Process& b) -> bool
+	auto arrivalComp = [&](const Process &a, const Process &b) -> bool
 	{
 		return a.arrivalTime < b.arrivalTime;
 	};
-	auto remComp = [&](const Process& a, const Process& b) -> bool
+	auto remComp = [&](const Process &a, const Process &b) -> bool
 	{
 		int remA = abs(a.processingTime - a.timeRunning);
 		int remB = abs(b.processingTime - b.timeRunning);
 		if (remA == remB)
 		{
+			if (a.arrivalTime == b.arrivalTime)
+			{
+				return a.arrivalOrder < b.arrivalOrder;
+			}
 			return a.arrivalTime < b.arrivalTime;
 		}
 		return remA < remB;
@@ -41,7 +45,7 @@ auto SRTScheduler::run() -> void
 		copy_if(
 			processes.begin(), processes.end(),
 			back_inserter(potenialProcesses),
-			[&](const Process& process) -> bool
+			[&](const Process &process) -> bool
 			{
 				return currentTime >= process.arrivalTime;
 			});
