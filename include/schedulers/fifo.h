@@ -11,5 +11,5 @@ class FiFoScheduler : public Scheduler
 	}
 
 public:
-	auto run() -> void;
+	auto run() -> void override;
 };
