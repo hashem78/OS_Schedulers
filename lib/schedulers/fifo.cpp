@@ -10,8 +10,11 @@ auto FiFoScheduler::run() -> void
 		std::pop_heap(begin(processesQueue), end(processesQueue), cmp);
 		auto process = processesQueue.back();
 		processesQueue.pop_back();
-		while (currentTime < process.arrivalTime)
-			currentTime++;
+		if (currentTime < process.arrivalTime)
+		{
+			currentTime += abs(process.arrivalTime - currentTime);
+		}
+
 		auto afterRunning = process.run(currentTime);
 
 		if (!afterRunning.finished)
