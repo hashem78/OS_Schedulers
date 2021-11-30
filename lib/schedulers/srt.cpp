@@ -55,7 +55,16 @@ auto SRTScheduler::run() -> void
 			auto next = *min_element(potenialProcesses.begin(), potenialProcesses.end(), remComp);
 			processesQueue.push_back(next);
 		}
-
+		if (processesQueue.empty())
+		{
+			if (!processes.empty())
+			{
+				auto next = min_element(processes.begin(), processes.end(), arrivalComp);
+				currentTime += abs(next->arrivalTime - currentTime);
+				processesQueue.push_back(*next);
+				processes.erase(next);
+			}
+		}
 		//cin.get();
 	}
 }

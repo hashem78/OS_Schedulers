@@ -1,11 +1,11 @@
 #include "../../include/schedulers/rr.h"
-RoundRobinScheuler::RoundRobinScheuler(int q) :Scheduler("Round Robin"),quantum(q) {
-
+RoundRobinScheuler::RoundRobinScheuler(int q) : Scheduler("Round Robin"), quantum(q)
+{
 }
 auto RoundRobinScheuler::run() -> void
 {
 	using namespace std;
-	auto arrivalComp = [&](const Process& a, const Process& b) -> bool
+	auto arrivalComp = [&](const Process &a, const Process &b) -> bool
 	{
 		return a.arrivalTime < b.arrivalTime;
 	};
@@ -14,7 +14,8 @@ auto RoundRobinScheuler::run() -> void
 	processes.erase(first);
 	while (!processesQueue.empty())
 	{
-		auto& front = processesQueue.front();
+		auto &front = processesQueue.front();
+
 		// the response time has to be set here
 		if (front.responseTime == -1)
 		{
@@ -57,6 +58,15 @@ auto RoundRobinScheuler::run() -> void
 			if (!popped)
 				processesQueue.push_front(frtyCpy);
 		}
-
+		if (processesQueue.empty())
+		{
+			if (!processes.empty())
+			{
+				auto next = min_element(processes.begin(), processes.end(), arrivalComp);
+				currentTime += abs(next->arrivalTime - currentTime);
+				processesQueue.push_back(*next);
+				processes.erase(next);
+			}
+		}
 	}
 }
