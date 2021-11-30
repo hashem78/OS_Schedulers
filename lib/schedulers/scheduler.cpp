@@ -1,5 +1,5 @@
 #include "../../include/schedulers/scheduler.h"
-Scheduler::Scheduler()
+Scheduler::Scheduler(string n) : name(n)
 {
 	readJobs();
 }
@@ -39,32 +39,44 @@ auto Scheduler::readJobs() -> void
 }
 auto Scheduler::printOutputs() const -> void
 {
-	for (const auto& process : finishedProcesses)
+	std::cout << name << "\n";
+	for (const auto &process : finishedProcesses)
 	{
 		std::cout << process.name;
 	}
 	std::cout << "\n\n";
-	for (const auto& process : finishedProcesses)
+	for (const auto &process : finishedProcesses)
 	{
 		std::cout << process;
 	}
+	std::cout << "=======================\n";
 }
 auto Scheduler::writeOutputs() const -> void
 {
-
-	std::ofstream ofile("out.txt");
+	std::ofstream ofile;
+	if (!writtenToFiles)
+	{
+		ofile.open("out.txt");
+		writtenToFiles = true;
+	}
+	else
+	{
+		ofile.open("out.txt", std::ios_base::app);
+	}
 
 	if (ofile.is_open() && ofile.good())
 	{
-		for (const auto& process : finishedProcesses)
+		ofile << name << "\n";
+		for (const auto &process : finishedProcesses)
 		{
 			ofile << process.name;
 		}
 		ofile << "\n\n";
-		for (const auto& process : finishedProcesses)
+		for (const auto &process : finishedProcesses)
 		{
 			ofile << process;
 		}
+		ofile << "=======================\n";
 	}
 	else
 	{
@@ -72,3 +84,4 @@ auto Scheduler::writeOutputs() const -> void
 		exit(EXIT_FAILURE);
 	}
 }
+bool Scheduler::writtenToFiles = false;

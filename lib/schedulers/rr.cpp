@@ -1,5 +1,5 @@
 #include "../../include/schedulers/rr.h"
-RoundRobinScheuler::RoundRobinScheuler(int q) :quantum(q) {
+RoundRobinScheuler::RoundRobinScheuler(int q) :Scheduler("Round Robin"),quantum(q) {
 
 }
 auto RoundRobinScheuler::run() -> void

@@ -3,7 +3,7 @@
 #include "scheduler.h"
 class FiFoScheduler : public Scheduler
 {
-	static bool cmp(const Process& a, const Process& b)
+	static bool cmp(const Process &a, const Process &b)
 	{
 		if (b.arrivalTime == a.arrivalTime)
 			return b.arrivalOrder < a.arrivalOrder;
@@ -11,5 +11,6 @@ class FiFoScheduler : public Scheduler
 	}
 
 public:
+	FiFoScheduler();
 	auto run() -> void override;
 };

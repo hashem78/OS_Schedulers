@@ -1,11 +1,12 @@
 #include "../../include/schedulers/sjf.h"
-auto SJFScheduler::run() -> void 
+SJFScheduler::SJFScheduler() : Scheduler("Shortest Job Fist") {}
+auto SJFScheduler::run() -> void
 {
-	auto arrivalComp = [&](const Process& a, const Process& b) -> bool
+	auto arrivalComp = [&](const Process &a, const Process &b) -> bool
 	{
 		return a.arrivalTime < b.arrivalTime;
 	};
-	auto processingComp = [&](const Process& a, const Process& b) -> bool
+	auto processingComp = [&](const Process &a, const Process &b) -> bool
 	{
 		return a.processingTime < b.processingTime;
 	};
@@ -32,7 +33,7 @@ auto SJFScheduler::run() -> void
 			copy_if(
 				processes.begin(), processes.end(),
 				back_inserter(potenialProcesses),
-				[&](const Process& process) -> bool
+				[&](const Process &process) -> bool
 				{
 					return currentTime >= process.arrivalTime;
 				});

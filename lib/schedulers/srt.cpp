@@ -1,5 +1,5 @@
 #include "../../include/schedulers/srt.h"
-
+SRTScheduler::SRTScheduler() : Scheduler("Shortest Remaining Time") {}
 auto SRTScheduler::run() -> void
 {
 	using namespace std;
